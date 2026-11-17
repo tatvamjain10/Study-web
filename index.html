@@ -1,292 +1,540 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Complete Study Web App</title>
+<title>Study Web - Login</title>
 
 <style>
-    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #17171b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.container {
+    width: 95%;
+    max-width: 1400px;
+    min-height: 850px;
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}
+
+/* LEFT LOGIN SECTION */
+
+.login-section {
+    width: 43%;
+    background: #1c1d22;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    color: white;
+}
+
+.login-content {
+    width: 100%;
+    max-width: 350px;
+}
+
+.login-content h1 {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.login-content p {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 45px;
+}
+
+.input-box {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 12px 35px 12px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #555;
+    outline: none;
+    color: white;
+    font-size: 16px;
+}
+
+.input-box input:focus {
+    border-bottom-color: #a16bea;
+}
+
+.input-box input::placeholder {
+    color: #777;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 0;
+    top: 12px;
+    background: transparent;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.forgot {
+    text-align: left;
+    margin: 25px 0 40px;
+}
+
+.forgot a {
+    color: #aaa;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.forgot a:hover {
+    color: #ad7af0;
+}
+
+.login-btn {
+    width: 100%;
+    padding: 14px;
+    background: #a16bea;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #854bd0;
+    transform: translateY(-2px);
+}
+
+.signup {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 170px;
+    color: #999;
+    font-size: 14px;
+}
+
+.signup button {
+    padding: 12px 22px;
+    background: #303137;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.signup button:hover {
+    background: #a16bea;
+}
+
+/* RIGHT WELCOME SECTION */
+
+.welcome-section {
+    width: 57%;
+    background: #965ce0;
+    padding: 120px 80px 40px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+/* Background shapes */
+
+.shape {
+    position: absolute;
+    background: rgba(210,170,255,0.12);
+    border-radius: 40%;
+    z-index: 0;
+}
+
+.shape-one {
+    width: 300px;
+    height: 250px;
+    top: -80px;
+    left: 150px;
+}
+
+.shape-two {
+    width: 400px;
+    height: 350px;
+    top: 250px;
+    right: -180px;
+}
+
+.shape-three {
+    width: 300px;
+    height: 400px;
+    bottom: -200px;
+    left: 50px;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-content h2 {
+    font-size: clamp(35px, 4vw, 65px);
+    line-height: 1.05;
+    font-weight: 700;
+}
+
+.welcome-content h2 span {
+    font-weight: 300;
+}
+
+.welcome-content p {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #eee;
+}
+
+/* STUDENT ILLUSTRATION */
+
+.illustration {
+    width: 100%;
+    max-width: 650px;
+    margin: 35px auto 0;
+    display: block;
+}
+
+/* ANIMATION */
+
+.login-content {
+    animation: slideIn 0.8s ease;
+}
+
+.welcome-content {
+    animation: fadeIn 1.2s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* RESPONSIVE DESIGN */
+
+@media(max-width: 900px) {
+    .container {
+        min-height: 750px;
+    }
+
+    .login-section {
+        width: 50%;
+        padding: 35px;
+    }
+
+    .welcome-section {
+        width: 50%;
+        padding: 100px 30px 30px;
+    }
+
+    .signup {
+        margin-top: 100px;
+    }
+}
+
+@media(max-width: 650px) {
     body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        background: #f5f7fa;
-        color: #222;
-        transition: 0.3s;
+        padding: 15px;
     }
 
-    header {
-        background: #4a90e2;
-        padding: 20px;
-        text-align: center;
-        color: white;
-    }
-
-    nav {
-        background: #333;
-        color: white;
-        display: flex;
-        justify-content: center;
-        padding: 10px;
-    }
-    nav button {
-        background: transparent;
-        border: none;
-        color: white;
-        margin: 0 15px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .section {
-        display: none;
-        padding: 20px;
-    }
-
-    .active {
-        display: block;
-    }
-
-    .box {
-        background: white;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px #ccc;
-        margin-bottom: 20px;
-    }
-
-    textarea, input {
+    .container {
         width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 5px;
+        flex-direction: column;
     }
 
-    button {
-        padding: 8px 15px;
-        margin-top: 10px;
-        cursor: pointer;
+    .login-section {
+        width: 100%;
+        padding: 50px 30px;
     }
 
-    
-    body.dark {
-        background: #1e1e1e;
-        color: #eee;
+    .welcome-section {
+        width: 100%;
+        min-height: 500px;
+        padding: 65px 30px;
     }
-    body.dark .box {
-        background: #2a2a2a;
-        box-shadow: 0 0 10px #0005;
+
+    .welcome-content h2 {
+        font-size: 38px;
     }
-    body.dark nav {
-        background: #111;
+
+    .signup {
+        margin-top: 80px;
     }
-    
+
+    .illustration {
+        max-width: 400px;
+    }
+}
 </style>
 </head>
+
 <body>
 
-<header>
-    <h1>Study Web App</h1>
-    <button id="dm" onclick="toggleDarkMode()">🌙 Dark Mode</button>
-</header>
+<div class="container">
 
-<nav>
-    <button onclick="showSection('notes')">Notes</button>
-    <button onclick="showSection('todo')">To-Do List</button>
-    <button onclick="showSection('flashcards')">Flashcards</button>
-    <button onclick="showSection('timer')">Study Timer</button>
-    <button onclick="showSection('stopwatch')">Stopwatch</button>
-</nav>
+    <!-- LEFT LOGIN FORM -->
 
-<!-- ---------- NOTES SECTION ---------- -->
-<section id="notes" class="section active">
-    <div class="box">
-        <h2>Notes</h2>
-        <textarea id="noteArea" placeholder="Write your notes..."></textarea>
+    <div class="login-section">
+
+        <div class="login-content">
+
+            <h1>Login</h1>
+
+            <p>Enter your account details</p>
+
+            <form id="loginForm" action="study_web.html">
+
+                <div class="input-box">
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        required
+                    >
+                </div>
+
+                <div class="input-box">
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="togglePassword">
+                        Show
+                    </button>
+
+                </div>
+
+                <div class="forgot">
+                    <a href="#" id="forgotPassword">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                <button type="submit" class="login-btn">
+                    Login
+                </button>
+
+            </form>
+
+            <div class="signup">
+
+                <span>Don't have an account?</span>
+
+                <button id="signupBtn">
+                    Sign up
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
-</section>
 
-<!-- ---------- TO-DO SECTION ---------- -->
-<section id="todo" class="section">
-    <div class="box">
-        <h2>To-Do List</h2>
-        <input id="taskInput" placeholder="Add task...">
-        <button onclick="addTask()">Add</button>
-        <ul id="taskList"></ul>
+
+    <!-- RIGHT WELCOME SECTION -->
+
+    <div class="welcome-section">
+
+        <div class="shape shape-one"></div>
+        <div class="shape shape-two"></div>
+        <div class="shape shape-three"></div>
+
+        <div class="welcome-content">
+
+            <h2>
+                Welcome to<br>
+                <span>Study Web</span>
+            </h2>
+
+            <p>Login to access your student account</p>
+
+            <!-- STUDENT ILLUSTRATION -->
+
+            <svg class="illustration"
+                 viewBox="0 0 650 520"
+                 xmlns="http://www.w3.org/2000/svg">
+
+                <!-- Book/document -->
+                <rect x="175" y="210" width="280" height="270"
+                      rx="8" fill="white" stroke="#222" stroke-width="4"/>
+
+                <circle cx="225" cy="300" r="65"
+                        fill="none" stroke="#999" stroke-width="8"/>
+
+                <circle cx="225" cy="300" r="25"
+                        fill="none" stroke="#999" stroke-width="6"/>
+
+                <rect x="280" y="245" width="130" height="12"
+                      rx="6" fill="#ddd" stroke="#777"/>
+
+                <rect x="280" y="280" width="150" height="12"
+                      rx="6" fill="#ddd" stroke="#777"/>
+
+                <rect x="280" y="350" width="150" height="12"
+                      rx="6" fill="#ddd" stroke="#777"/>
+
+                <rect x="280" y="385" width="130" height="12"
+                      rx="6" fill="#ddd" stroke="#777"/>
+
+                <!-- Laptop -->
+                <path d="M400 120 L490 120 L470 210 L380 210 Z"
+                      fill="#19191d" stroke="#19191d" stroke-width="5"/>
+
+                <path d="M370 215 L490 215"
+                      stroke="#19191d" stroke-width="10"
+                      stroke-linecap="round"/>
+
+                <!-- Student on right -->
+                <circle cx="365" cy="95" r="25"
+                        fill="white" stroke="#222" stroke-width="4"/>
+
+                <path d="M342 88 Q340 50 375 65 Q395 75 380 92"
+                      fill="#222"/>
+
+                <path d="M355 125 Q320 165 340 220
+                         L425 230 L440 190
+                         Q430 150 395 125 Z"
+                      fill="white" stroke="#222" stroke-width="4"/>
+
+                <path d="M355 135 Q315 165 335 185
+                         L380 170"
+                      fill="none" stroke="#222" stroke-width="9"
+                      stroke-linecap="round"/>
+
+                <path d="M395 140 L435 100 L450 120"
+                      fill="none" stroke="#222" stroke-width="10"
+                      stroke-linecap="round"/>
+
+                <path d="M340 215 L310 275 L365 280 L400 225"
+                      fill="white" stroke="#222" stroke-width="4"/>
+
+                <path d="M365 275 L430 320 L485 285"
+                      fill="none" stroke="#222" stroke-width="18"
+                      stroke-linecap="round"/>
+
+                <!-- Student on left -->
+                <circle cx="125" cy="185" r="24"
+                        fill="white" stroke="#222" stroke-width="4"/>
+
+                <path d="M102 180 Q95 145 132 155 Q155 160 145 180"
+                      fill="#222"/>
+
+                <path d="M115 210 Q85 220 80 280
+                         L145 310 L175 255
+                         Q160 215 140 210 Z"
+                      fill="white" stroke="#222" stroke-width="4"/>
+
+                <path d="M105 230 L65 265 L105 300"
+                      fill="none" stroke="#222" stroke-width="12"
+                      stroke-linecap="round"/>
+
+                <path d="M100 300 L85 405 L65 460"
+                      fill="none" stroke="#222" stroke-width="15"
+                      stroke-linecap="round"/>
+
+                <path d="M140 300 L160 405 L180 460"
+                      fill="none" stroke="#222" stroke-width="15"
+                      stroke-linecap="round"/>
+
+                <path d="M55 465 L85 465 M165 465 L195 465"
+                      stroke="#222" stroke-width="10"
+                      stroke-linecap="round"/>
+
+                <!-- Plant -->
+                <path d="M500 465 L510 370 L545 465"
+                      fill="#222"/>
+
+                <path d="M515 400 Q470 350 450 385
+                         Q480 425 515 400"
+                      fill="#292b44"/>
+
+                <path d="M515 400 Q545 330 580 355
+                         Q565 395 515 400"
+                      fill="#292b44"/>
+
+                <path d="M510 430 Q545 380 590 405
+                         Q560 450 510 430"
+                      fill="#292b44"/>
+
+                <path d="M480 470 L570 470 L555 495
+                         L495 495 Z"
+                      fill="#17171b"/>
+
+            </svg>
+
+        </div>
+
     </div>
-</section>
+    
 
-<!-- ---------- FLASHCARDS SECTION ---------- -->
-<section id="flashcards" class="section">
-    <div class="box">
-        <h2>Flashcards</h2>
-        <input id="flashQuestion" placeholder="Question">
-        <input id="flashAnswer" placeholder="Answer">
-        <button onclick="addFlashcard()">Add Flashcard</button>
+    
 
-        <h3>My Flashcards</h3>
-        <div id="flashcardContainer"></div>
-    </div>
-</section>
-
-<!-- ---------- POMODORO TIMER SECTION ---------- -->
-<section id="timer" class="section">
-    <div class="box">
-        <h2>MY Timer</h2>
-        <h1 id="pomoDisplay">25:00</h1>
-        <button onclick="startPomodoro()">Start</button>
-        <button onclick="resetPomodoro()">Reset</button>
-    </div>
-</section>
-
-<!-- ---------- STOPWATCH SECTION ---------- -->
-<section id="stopwatch" class="section">
-    <div class="box">
-        <h2>Stopwatch</h2>
-        <h1 id="stopwatchDisplay">00:00:00</h1>
-        <button onclick="startStopwatch()">Start</button>
-        <button onclick="stopStopwatch()">Stop</button>
-        <button onclick="resetStopwatch()">Reset</button>
-    </div>
-</section>
-
+</div>
 <script>
-/* ---------- NAVIGATION ---------- */
-function showSection(id) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
+    const password = document.getElementById("password");
+const toggle = document.getElementById("togglePassword");
 
-/* ---------- DARK MODE ---------- */
-function toggleDarkMode() {
-    document.body.classList.toggle('dark');
-    localStorage.setItem("darkMode", document.body.classList.contains("dark"));
-}
-if (localStorage.getItem("darkMode") === "true") {
-    document.body.classList.add("dark");
-}
+toggle.addEventListener("click", function() {
 
-/* ---------- NOTES (AUTO SAVE) ---------- */
-let noteArea = document.getElementById("noteArea");
-noteArea.value = localStorage.getItem("notes") || "";
-noteArea.addEventListener("input", () => {
-    localStorage.setItem("notes", noteArea.value);
+    if(password.type === "password") {
+        password.type = "text";
+        toggle.innerText = "Hide";
+    } else {
+        password.type = "password";
+        toggle.innerText = "Show";
+    }
+
 });
-
-/* ---------- TO-DO LIST ---------- */
-function loadTasks() {
-    let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-    let taskList = document.getElementById("taskList");
-    taskList.innerHTML = "";
-    tasks.forEach((t, i) => {
-        let li = document.createElement("li");
-        li.innerHTML = t + " <button onclick='deleteTask(" + i + ")'>X</button>";
-        taskList.appendChild(li);
-    });
-}
-function addTask() {
-    let t = document.getElementById("taskInput").value;
-    if (!t) return;
-    let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
-    tasks.push(t);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    loadTasks();
-}
-function deleteTask(i) {
-    let tasks = JSON.parse(localStorage.getItem("tasks"));
-    tasks.splice(i, 1);
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-    loadTasks();
-}
-loadTasks();
-
-/* ---------- FLASHCARDS ---------- */
-function loadFlashcards() {
-    let cards = JSON.parse(localStorage.getItem("flashcards") || "[]");
-    let container = document.getElementById("flashcardContainer");
-    container.innerHTML = "";
-
-    cards.forEach((c, i) => {
-        let card = document.createElement("div");
-        card.style.margin = "10px";
-        card.style.padding = "10px";
-        card.style.border = "1px solid #ccc";
-        card.style.cursor = "pointer";
-
-        card.innerHTML = `<b>Q:</b> ${c.q}<br><b>A:</b> ${c.a}<br>
-        <button onclick="deleteFlashcard(${i})">Delete</button>`;
-
-        container.appendChild(card);
-    });
-}
-function addFlashcard() {
-    let q = document.getElementById("flashQuestion").value;
-    let a = document.getElementById("flashAnswer").value;
-    if (!q || !a) return;
-
-    let cards = JSON.parse(localStorage.getItem("flashcards") || "[]");
-    cards.push({ q, a });
-    localStorage.setItem("flashcards", JSON.stringify(cards));
-    loadFlashcards();
-}
-function deleteFlashcard(i) {
-    let cards = JSON.parse(localStorage.getItem("flashcards"));
-    cards.splice(i, 1);
-    localStorage.setItem("flashcards", JSON.stringify(cards));
-    loadFlashcards();
-}
-loadFlashcards();
-
-/* ---------- POMODORO TIMER ---------- */
-
-let pomoTime = 1500, pomoRun = false;
-function updatePomodoro() {
-    let min = String(Math.floor(pomoTime / 60)).padStart(2, "0");
-    let sec = String(pomoTime % 60).padStart(2, "0");
-    document.getElementById("pomoDisplay").innerText = `${min}:${sec}`;
-}
-function startPomodoro() {
-    if (pomoRun) return;
-    pomoRun = true;
-    let interval = setInterval(() => {
-        if (!pomoRun) return clearInterval(interval);
-        if (pomoTime <= 0) { alert("Time's up!"); pomoRun = false; return; }
-        pomoTime--;
-        updatePomodoro();
-    }, 1000);
-}
-function resetPomodoro() {
-    pomoRun = false;
-    pomoTime = 1500;
-    updatePomodoro();
-}
-
-/* ---------- STOPWATCH ---------- */
-let sw = 0, swRun = false;
-function updateStopwatch() {
-    let h = String(Math.floor(sw / 3600)).padStart(2, "0");
-    let m = String(Math.floor((sw % 3600) / 60)).padStart(2, "0");
-    let s = String(sw % 60).padStart(2, "0");
-    document.getElementById("stopwatchDisplay").innerText = `${h}:${m}:${s}`;
-}
-function startStopwatch() {
-    if (swRun) return;
-    swRun = true;
-    setInterval(() => {
-        if (!swRun) return;
-        sw++;
-        updateStopwatch();
-    }, 1000);
-}
-function stopStopwatch() {
-    swRun = false;
-}
-function resetStopwatch() {
-    swRun = false;
-    sw = 0;
-    updateStopwatch();
-}
 </script>
+
+
+
+
+
 
 </body>
 </html>

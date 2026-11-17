@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Complete Study Web App</title>
+
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f5f7fa;
+        color: #222;
+        transition: 0.3s;
+    }
+
+    header {
+        background: #4a90e2;
+        padding: 20px;
+        text-align: center;
+        color: white;
+    }
+
+    nav {
+        background: #333;
+        color: white;
+        display: flex;
+        justify-content: center;
+        padding: 10px;
+    }
+    nav button {
+        background: transparent;
+        border: none;
+        color: white;
+        margin: 0 15px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .section {
+        display: none;
+        padding: 20px;
+    }
+
+    .active {
+        display: block;
+    }
+
+    .box {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+        margin-bottom: 20px;
+    }
+
+    textarea, input {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        border-radius: 5px;
+    }
+
+    button {
+        padding: 8px 15px;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    
+    body.dark {
+        background: #1e1e1e;
+        color: #eee;
+    }
+    body.dark .box {
+        background: #2a2a2a;
+        box-shadow: 0 0 10px #0005;
+    }
+    body.dark nav {
+        background: #111;
+    }
+    
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Study Web App</h1>
+    <button id="dm" onclick="toggleDarkMode()">🌙 Dark Mode</button>
+</header>
+
+<nav>
+    <button onclick="showSection('notes')">Notes</button>
+    <button onclick="showSection('todo')">To-Do List</button>
+    <button onclick="showSection('flashcards')">Flashcards</button>
+    <button onclick="showSection('timer')">Study Timer</button>
+    <button onclick="showSection('stopwatch')">Stopwatch</button>
+</nav>
+
+<!-- ---------- NOTES SECTION ---------- -->
+<section id="notes" class="section active">
+    <div class="box">
+        <h2>Notes</h2>
+        <textarea id="noteArea" placeholder="Write your notes..."></textarea>
+    </div>
+</section>
+
+<!-- ---------- TO-DO SECTION ---------- -->
+<section id="todo" class="section">
+    <div class="box">
+        <h2>To-Do List</h2>
+        <input id="taskInput" placeholder="Add task...">
+        <button onclick="addTask()">Add</button>
+        <ul id="taskList"></ul>
+    </div>
+</section>
+
+<!-- ---------- FLASHCARDS SECTION ---------- -->
+<section id="flashcards" class="section">
+    <div class="box">
+        <h2>Flashcards</h2>
+        <input id="flashQuestion" placeholder="Question">
+        <input id="flashAnswer" placeholder="Answer">
+        <button onclick="addFlashcard()">Add Flashcard</button>
+
+        <h3>My Flashcards</h3>
+        <div id="flashcardContainer"></div>
+    </div>
+</section>
+
+<!-- ---------- POMODORO TIMER SECTION ---------- -->
+<section id="timer" class="section">
+    <div class="box">
+        <h2>MY Timer</h2>
+        <h1 id="pomoDisplay">25:00</h1>
+        <button onclick="startPomodoro()">Start</button>
+        <button onclick="resetPomodoro()">Reset</button>
+    </div>
+</section>
+
+<!-- ---------- STOPWATCH SECTION ---------- -->
+<section id="stopwatch" class="section">
+    <div class="box">
+        <h2>Stopwatch</h2>
+        <h1 id="stopwatchDisplay">00:00:00</h1>
+        <button onclick="startStopwatch()">Start</button>
+        <button onclick="stopStopwatch()">Stop</button>
+        <button onclick="resetStopwatch()">Reset</button>
+    </div>
+</section>
+
+<script>
+/* ---------- NAVIGATION ---------- */
+function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+/* ---------- DARK MODE ---------- */
+function toggleDarkMode() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+}
+if (localStorage.getItem("darkMode") === "true") {
+    document.body.classList.add("dark");
+}
+
+/* ---------- NOTES (AUTO SAVE) ---------- */
+let noteArea = document.getElementById("noteArea");
+noteArea.value = localStorage.getItem("notes") || "";
+noteArea.addEventListener("input", () => {
+    localStorage.setItem("notes", noteArea.value);
+});
+
+/* ---------- TO-DO LIST ---------- */
+function loadTasks() {
+    let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    let taskList = document.getElementById("taskList");
+    taskList.innerHTML = "";
+    tasks.forEach((t, i) => {
+        let li = document.createElement("li");
+        li.innerHTML = t + " <button onclick='deleteTask(" + i + ")'>X</button>";
+        taskList.appendChild(li);
+    });
+}
+function addTask() {
+    let t = document.getElementById("taskInput").value;
+    if (!t) return;
+    let tasks = JSON.parse(localStorage.getItem("tasks") || "[]");
+    tasks.push(t);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    loadTasks();
+}
+function deleteTask(i) {
+    let tasks = JSON.parse(localStorage.getItem("tasks"));
+    tasks.splice(i, 1);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    loadTasks();
+}
+loadTasks();
+
+/* ---------- FLASHCARDS ---------- */
+function loadFlashcards() {
+    let cards = JSON.parse(localStorage.getItem("flashcards") || "[]");
+    let container = document.getElementById("flashcardContainer");
+    container.innerHTML = "";
+
+    cards.forEach((c, i) => {
+        let card = document.createElement("div");
+        card.style.margin = "10px";
+        card.style.padding = "10px";
+        card.style.border = "1px solid #ccc";
+        card.style.cursor = "pointer";
+
+        card.innerHTML = `<b>Q:</b> ${c.q}<br><b>A:</b> ${c.a}<br>
+        <button onclick="deleteFlashcard(${i})">Delete</button>`;
+
+        container.appendChild(card);
+    });
+}
+function addFlashcard() {
+    let q = document.getElementById("flashQuestion").value;
+    let a = document.getElementById("flashAnswer").value;
+    if (!q || !a) return;
+
+    let cards = JSON.parse(localStorage.getItem("flashcards") || "[]");
+    cards.push({ q, a });
+    localStorage.setItem("flashcards", JSON.stringify(cards));
+    loadFlashcards();
+}
+function deleteFlashcard(i) {
+    let cards = JSON.parse(localStorage.getItem("flashcards"));
+    cards.splice(i, 1);
+    localStorage.setItem("flashcards", JSON.stringify(cards));
+    loadFlashcards();
+}
+loadFlashcards();
+
+/* ---------- POMODORO TIMER ---------- */
+
+let pomoTime = 1500, pomoRun = false;
+function updatePomodoro() {
+    let min = String(Math.floor(pomoTime / 60)).padStart(2, "0");
+    let sec = String(pomoTime % 60).padStart(2, "0");
+    document.getElementById("pomoDisplay").innerText = `${min}:${sec}`;
+}
+function startPomodoro() {
+    if (pomoRun) return;
+    pomoRun = true;
+    let interval = setInterval(() => {
+        if (!pomoRun) return clearInterval(interval);
+        if (pomoTime <= 0) { alert("Time's up!"); pomoRun = false; return; }
+        pomoTime--;
+        updatePomodoro();
+    }, 1000);
+}
+function resetPomodoro() {
+    pomoRun = false;
+    pomoTime = 1500;
+    updatePomodoro();
+}
+
+/* ---------- STOPWATCH ---------- */
+let sw = 0, swRun = false;
+function updateStopwatch() {
+    let h = String(Math.floor(sw / 3600)).padStart(2, "0");
+    let m = String(Math.floor((sw % 3600) / 60)).padStart(2, "0");
+    let s = String(sw % 60).padStart(2, "0");
+    document.getElementById("stopwatchDisplay").innerText = `${h}:${m}:${s}`;
+}
+function startStopwatch() {
+    if (swRun) return;
+    swRun = true;
+    setInterval(() => {
+        if (!swRun) return;
+        sw++;
+        updateStopwatch();
+    }, 1000);
+}
+function stopStopwatch() {
+    swRun = false;
+}
+function resetStopwatch() {
+    swRun = false;
+    sw = 0;
+    updateStopwatch();
+}
+</script>
+
+</body>
+</html>
